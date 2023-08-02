@@ -4,15 +4,12 @@ const Cover = ({ img, title }) => {
   return (
     <Parallax
     blur={{ min: -50, max: 50}}
-    bgImage={require('path/to/another/image.jpg')}
+    bgImage={img}
     bgImageAlt="the menu"
     strength={-200}
 > <div>
       <div
         className="hero min-h-screen"
-        style={{
-          backgroundImage: `url("${img}")`,
-        }}
       >
         <div className="hero-overlay bg-opacity-60"></div>
         <div className="hero-content text-center text-neutral-content">
