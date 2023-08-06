@@ -1,11 +1,41 @@
+import { useEffect, useRef, useState } from "react";
+import {
+  loadCaptchaEnginge,
+  LoadCanvasTemplate,
+  validateCaptcha,
+} from "react-simple-captcha";
+
 const Login = () => {
-    const handleLogin = event => {
-        event.preventDefault();
-        const form = event.target;
-        const email  = form.email.value;
-        const password = form.password.value;
-        console.log(email, password);
+
+const captchaRef = useRef(null);
+
+const [disable, setDisable] = useState(true)
+
+  useEffect(()=> {
+    loadCaptchaEnginge(6); 
+  }, [])
+
+  const handleLogin = (event) => {
+    event.preventDefault();
+    const form = event.target;
+    const email = form.email.value;
+    const password = form.password.value;
+    console.log(email, password);
+  };
+   
+  const handleValidateCaptcha = () => {
+    const user_captcha_value = captchaRef.current.value;
+    console.log(user_captcha_value)
+    if(validateCaptcha(user_captcha_value)){
+setDisable(false)
     }
+
+    else{
+      setDisable(true)
+
+    }
+  }
+
   return (
     <div className="hero min-h-screen bg-base-200">
       <div className="hero-content flex-col lg:flex-row-reverse">
@@ -46,11 +76,24 @@ const Login = () => {
                 </a>
               </label>
             </div>
+            <div className="form-control">
+              <label className="label">
+                <LoadCanvasTemplate />
+              </label>
+              <input
+              ref={captchaRef}
+                type="text"
+                name="captcha"
+                placeholder="type the captcha text above"
+                className="input input-bordered"
+              />
+              <button onClick={handleValidateCaptcha} className="btn btn-outline mt-4 btn-xs">Validated</button>
+            </div>
             <div className="form-control mt-6">
-              <input type="submit"  className="btn btn-primary" value="login" />
+              <input disabled={disable} type="submit" className="btn btn-primary" value="login" />
             </div>
           </form>
-        </div>                  
+        </div>
       </div>
     </div>
   );
